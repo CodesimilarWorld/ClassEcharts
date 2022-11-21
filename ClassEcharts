@@ -1,0 +1,75 @@
+export default class EchartDate {
+    options: any;
+    datalist: any = {title:''};
+    list: any = function map(data:any){
+      
+    };
+
+    map(data:any){
+      if(typeof data == 'string'){
+        let list:any = data.split('，')
+        for(let i=0; i<list.length; i++){
+          // console.log(list[i])
+          if(list[i].includes('标题：')){
+            // this.datalist.push({title:list[i].split('标题:')[1]})
+            this.datalist.title = list[i].split('标题：')[1]
+            console.log(this.datalist)
+            this.datalist.center = 'left'
+          }
+        }
+      }
+    }
+
+    constructor(ref: any, echarts: any, data: any) {
+      this.map(data)
+      let options = {
+        title: {
+          text: this.datalist.title,
+          left: this.datalist.center
+        },
+        tooltip: {
+          show: true,
+        },
+        dataZoom: {},
+        xAxis: {
+          type: 'category'
+        },
+        yAxis:{
+
+        },
+        series: [
+          {
+            data: [
+              { value: 55, name: "name" },
+              { value: 59, name: "lis" },
+              { value: 33, name: "age" },
+              { value: 73, name: "msg" },
+              { value: 43, name: "age" },
+            ],
+            type:'line',
+            markLine:{
+              data:[
+                {
+                  type:'average',name:'平均值'
+                }
+              ]
+            },
+            itemStyle:{
+              color:'aqua'
+            },
+            emphasis:{
+              focus:'series'
+            },
+            areaStyle:{
+
+            }
+          },
+        ],
+        toolbox: {
+          show: true,
+        },
+      };
+      let myChart = echarts.init(ref);
+      myChart.setOption(options);
+    }
+  }
